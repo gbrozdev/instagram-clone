@@ -8,7 +8,10 @@ const SignIn  = ()=>{
     const [password,setPasword] = useState("")
     const [email,setEmail] = useState("")
     const PostData = ()=>{
-       console.log('call');
+        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+            M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
+            return 
+        }
         fetch("/signin",{
             method:"post",
             headers:{
@@ -18,23 +21,25 @@ const SignIn  = ()=>{
                 password,
                 email
             })
-        }).then(res => res.json()).then(data => {
-            console.log(data);
-            if(data.error){
-                M.toast({html: data.error,classes:"#c62828 red darken-3"})
-             }
-             else{
-                 localStorage.setItem("jwt",data.token)
-                 localStorage.setItem("user",JSON.stringify(data.user))
-                 dispatch({type:"USER",payload:data.user})
-                 M.toast({html:"signedin success",classes:"#43a047 green darken-1"})
-                 history.push('/')
-            }
-            
+        }).then(res => {
+            console.log('fetch \n');
+            console.log(res.json());
+            res.json()
+        }).then(data=>{
+            console.log("sign in output \n",data)
+           if(data.error){
+              M.toast({html: data.error,classes:"#c62828 red darken-3"})
+           }
+           else{
+               localStorage.setItem("jwt",data.token)
+               localStorage.setItem("user",JSON.stringify(data.user))
+               dispatch({type:"USER",payload:data.user})
+               M.toast({html:"signedin success",classes:"#43a047 green darken-1"})
+               history.push('/')
+           }
         }).catch(err=>{
             console.log("mongo err \n ",err)
         })
-
     }
    return (
       <div className="mycard">

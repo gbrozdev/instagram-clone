@@ -12,7 +12,8 @@ const SignIn  = ()=>{
         if(url){
             uploadFields()
         }
-    },[url])
+    }, [url])
+    
     const uploadPic = ()=>{
         const data = new FormData()
         data.append("file",image)
@@ -30,6 +31,7 @@ const SignIn  = ()=>{
             console.log(err)
         })
     }
+    
     const uploadFields = ()=>{
         if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
             M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
