@@ -20,9 +20,9 @@ const Profile  = ()=>{
        if(image){
         const data = new FormData()
         data.append("file",image)
-        data.append("upload_preset","insta-clone")
-        data.append("cloud_name","cnq")
-        fetch("https://api.cloudinary.com/v1_1/cnq/image/upload",{
+         data.append("upload_preset","instagram-clone")
+        data.append("cloud_name","gbrozdev")
+        fetch("https://api.cloudinary.com/v1_1/gbrozdev/image/upload",{
             method:"post",
             body:data
         })
@@ -87,7 +87,7 @@ const Profile  = ()=>{
                </div>
            </div>
         
-            <div className="file-field input-field" style={{margin:"10px"}}>
+            {/* <div className="file-field input-field" style={{margin:"10px"}}>
             <div className="btn #64b5f6 blue darken-1">
                 <span>Update pic</span>
                 <input type="file" onChange={(e)=>updatePhoto(e.target.files[0])} />
@@ -95,7 +95,7 @@ const Profile  = ()=>{
             <div className="file-path-wrapper">
                 <input className="file-path validate" type="text" />
             </div>
-            </div>
+            </div> */}
             </div>      
            <div className="gallery">
                {
