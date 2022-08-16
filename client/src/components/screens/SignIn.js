@@ -40,7 +40,7 @@ const SignIn  = ()=>{
        <>
               <div className='flex items-center justify-center h-full p-16'>
      <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 ">
-	<h1 className="text-2xl font-bold text-center">Sign Up</h1>
+	<h1 className="text-2xl font-bold text-center">Sign IN</h1>
     
 	<div className="space-y-6 ng-untouched ng-pristine ng-valid">
 		<div className="space-y-1 text-sm">
