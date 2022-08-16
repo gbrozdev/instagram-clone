@@ -66,8 +66,11 @@ function App() {
   const [state,dispatch] = useReducer(reducer,initialState)
   return (
     <UserContext.Provider value={{state,dispatch}}>
-    <BrowserRouter>
-      <NavBar />
+      <BrowserRouter>
+        <div className="mt-16">
+
+          <NavBar />
+        </div>
         <Routing />
         <Footer />
       

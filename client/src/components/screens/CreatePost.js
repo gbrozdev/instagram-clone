@@ -58,43 +58,42 @@ const CretePost = ()=>{
  
 
    return(
-       <div className="card input-filed"
-       style={{
-           margin:"30px auto",
-           maxWidth:"500px",
-           padding:"20px",
-           textAlign:"center"
-       }}
-       >
-           <input 
-           type="text"
-            placeholder="title"
-            value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-            />
-           <input
-            type="text"
-             placeholder="body"
-             value={body}
-            onChange={(e)=>setBody(e.target.value)}
-             />
-           <div className="file-field input-field">
-            <div className="btn #64b5f6 blue darken-1">
-                <span>Uplaod Image</span>
-                <input type="file" onChange={(e)=>setImage(e.target.files[0])} />
+    <div className='flex items-center justify-center h-full p-16'>
+    <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 ">
+        <h1 className="text-2xl font-bold text-center">Create A Post</h1>
+    
+        <div className="space-y-6 ng-untouched ng-pristine ng-valid">
+          
+            <div className="space-y-1 text-sm">
+                <label for="username" className="block text-gray-600">Title</label>
+                <input type="text"  placeholder="title"
+                value={title}
+                onChange={(e)=>setTitle(e.target.value)} className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
             </div>
-            <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
+            <div className="space-y-1 text-sm">
+                <label for="password" className="block text-gray-600">Body</label>
+                       <textarea type="text" rows={6}
+                    placeholder="body"
+                    value={body}
+                   onChange={(e)=>setBody(e.target.value)} className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" ></textarea>
+                <div >
+                </div>
+                    
+                    <div className="flex items-center space-x-2 mt-10">
+                        <img src=" https://res.cloudinary.com/gbrozdev/image/upload/v1660656028/instagram-clone/alowhnmmxneqs2ecqiqp.png" alt="" className="w-10 h-10 rounded-full bg-gray-500 bg-gray-300" />
+                        <label htmlFor="pic" type="button" className="px-4 py-2 border rounded-md border-gray-800">Upload Pic</label>
+                    <input hidden type="file" id="pic" onChange={(e) => setImage(e.target.files[0])} />
+                    </div>
             </div>
-            </div>
-            <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
-            onClick={()=>postDetails()}
-            
-            >
-                Submit post
-            </button>
-
-       </div>
+    
+            <button onClick={() => postDetails()} className="block w-full p-3 text-center rounded-sm text-gray-50 bg-indigo-600"> Create Post</button>
+        </div>
+        
+       
+    </div>
+    
+    </div>
+    
    )
 }
 

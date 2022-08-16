@@ -1,132 +1,162 @@
-import React,{useState,useEffect} from 'react'
-import {Link,useHistory} from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import M from 'materialize-css'
-const SignIn  = ()=>{
+const SignIn = () => {
     const history = useHistory()
-    const [name,setName] = useState("")
-    const [password,setPasword] = useState("")
-    const [email,setEmail] = useState("")
-    const [image,setImage] = useState("")
-    const [url,setUrl] = useState(undefined)
-    useEffect(()=>{
-        if(url){
+    const [name, setName] = useState("")
+    const [password, setPasword] = useState("")
+    const [email, setEmail] = useState("")
+    const [image, setImage] = useState("")
+    const [url, setUrl] = useState(undefined)
+    useEffect(() => {
+        if (url) {
+            console.log('c');
             uploadFields()
         }
     }, [url])
-    
-    
-    const uploadPic = ()=>{
+
+
+    const uploadPic = () => {
         const data = new FormData()
-        data.append("file",image)
-        data.append("upload_preset","instagram-clone")
-        data.append("cloud_name","gbrozdev")
-        fetch("https://api.cloudinary.com/v1_1/gbrozdev/image/upload",{
-            method:"post",
-            body:data
+        data.append("file", image)
+        data.append("upload_preset", "instagram-clone")
+        data.append("cloud_name", "gbrozdev")
+        console.log(data);
+        fetch("https://api.cloudinary.com/v1_1/gbrozdev/image/upload", {
+            method: "post",
+            body: data
         })
-        .then(res=>res.json())
-        .then(data=>{
-           setUrl(data.url)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data.url);
+                setUrl(data.url)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
-    const uploadFields = ()=>{
-        if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
-            M.toast({html: "invalid email",classes:"#c62828 red darken-3"})
+    const uploadFields = () => {
+        console.log('sd');
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+            M.toast({ html: "invalid email", classes: "#c62828 red darken-3" })
             return
         }
-        fetch("/signup",{
-            method:"post",
-            headers:{
-                "Content-Type":"application/json"
+        fetch("/signup", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 name,
                 password,
                 email,
-                pic:url
+                pic: url
             })
-        }).then(res=>res.json())
-        .then(data=>{
-           if(data.error){
-              M.toast({html: data.error,classes:"#c62828 red darken-3"})
-           }
-           else{
-               M.toast({html:data.message,classes:"#43a047 green darken-1"})
-               history.push('/signin')
-           }
-        }).catch(err=>{
-            console.log(err)
-        })
+        }).then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    console.log(data.error);
+                    M.toast({ html: data.error, classes: "#c62828 red darken-3" })
+                }
+                else {
+                    console.log(data.message);
+                    M.toast({ html: data.message, classes: "#43a047 green darken-1" })
+                    history.push('/signin')
+                }
+            }).catch(err => {
+                console.log(err)
+            })
     }
-    const PostData = ()=>{
-        if(image){
+    const PostData = () => {
+        console.log('c');
+        if (image) {
             uploadPic()
-        }else{
+        } else {
             uploadFields()
         }
-       
+
     }
 
-   return (
-       <div className="mycard">
-                 <Link to="/" rel="noopener noreferrer" href="#" className="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 bg-gray-50">
-                <img src="https://source.unsplash.com/random" alt="" className="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 bg-gray-100" />
-                <div className="p-6 space-y-2 lg:col-span-5">
-                    <h3 className="mb-2 text-2xl font-semibold sm:text-4xl group-hover:underline group-focus:underline">7 Things I Hope You Know About Love</h3>
-                    <span className="mb-2 text-xs text-gray-600">February 19, 2021</span>
-                    <p>7 Things I Hope You Know About Love 7 Things I Hope You Know About Love 7 Things I Hope You Know About Love 7 Things I Hope You Know About Love 7 Things I Hope You Know About Love</p>
+    return (
+        <>
+            <div className='flex items-center justify-center h-full p-16'>
+                <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-gray-50 text-gray-800 ">
+                    <h1 className="text-2xl font-bold text-center">Sign Up</h1>
+
+                    <div className="space-y-6 ng-untouched ng-pristine ng-valid">
+                        <div className="space-y-1 text-sm">
+                            <label for="name" className="block text-gray-600">Username</label>
+                            <input type="text" id="name" placeholder="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)} className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
+                        </div>
+                        <div className="space-y-1 text-sm">
+                            <label for="username" className="block text-gray-600">Email</label>
+                            <input type="text" placeholder="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
+                        </div>
+                        <div className="space-y-1 text-sm">
+                            <label for="password" className="block text-gray-600">Password</label>
+                            <input type="password"
+                                placeholder="password"
+                                value={password}
+                                onChange={(e) => setPasword(e.target.value)} className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 text-gray-800 focus:border-indigo-600" />
+                            <div >
+                            </div>
+                                
+                                <div className="flex items-center space-x-2 mt-10">
+                                    <img src=" https://res.cloudinary.com/gbrozdev/image/upload/v1660656028/instagram-clone/alowhnmmxneqs2ecqiqp.png" alt="" className="w-10 h-10 rounded-full bg-gray-500 bg-gray-300" />
+                                    <label htmlFor="pic" type="button" className="px-4 py-2 border rounded-md border-gray-800">Upload Pic</label>
+                                <input hidden type="file" id="pic" onChange={(e) => setImage(e.target.files[0])} />
+                                </div>
+
+                             
+
+
+                            <div className="flex justify-end text-xs text-gray-600">
+                                <Link to="/" rel="noopener noreferrer" href="#">Forgot Password?</Link>
+                            </div>
+                        </div>
+
+                        <button onClick={() => PostData()} className="block w-full p-3 text-center rounded-sm text-gray-50 bg-indigo-600">Sign in</button>
+                    </div>
+                    <div className="flex items-center pt-4 space-x-1">
+                        <div className="flex-1 h-px sm:w-16 bg-gray-300"></div>
+                        <p className="px-3 text-sm text-gray-600">Login with social accounts</p>
+                        <div className="flex-1 h-px sm:w-16 bg-gray-300"></div>
+                    </div>
+                    <div className="flex justify-center space-x-4">
+                        <button aria-label="Log in with Google" className="p-3 rounded-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-5 h-5 fill-current">
+                                <path d="M16.318 13.714v5.484h9.078c-0.37 2.354-2.745 6.901-9.078 6.901-5.458 0-9.917-4.521-9.917-10.099s4.458-10.099 9.917-10.099c3.109 0 5.193 1.318 6.38 2.464l4.339-4.182c-2.786-2.599-6.396-4.182-10.719-4.182-8.844 0-16 7.151-16 16s7.156 16 16 16c9.234 0 15.365-6.49 15.365-15.635 0-1.052-0.115-1.854-0.255-2.651z"></path>
+                            </svg>
+                        </button>
+                        <button aria-label="Log in with Twitter" className="p-3 rounded-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-5 h-5 fill-current">
+                                <path d="M31.937 6.093c-1.177 0.516-2.437 0.871-3.765 1.032 1.355-0.813 2.391-2.099 2.885-3.631-1.271 0.74-2.677 1.276-4.172 1.579-1.192-1.276-2.896-2.079-4.787-2.079-3.625 0-6.563 2.937-6.563 6.557 0 0.521 0.063 1.021 0.172 1.495-5.453-0.255-10.287-2.875-13.52-6.833-0.568 0.964-0.891 2.084-0.891 3.303 0 2.281 1.161 4.281 2.916 5.457-1.073-0.031-2.083-0.328-2.968-0.817v0.079c0 3.181 2.26 5.833 5.26 6.437-0.547 0.145-1.131 0.229-1.724 0.229-0.421 0-0.823-0.041-1.224-0.115 0.844 2.604 3.26 4.5 6.14 4.557-2.239 1.755-5.077 2.801-8.135 2.801-0.521 0-1.041-0.025-1.563-0.088 2.917 1.86 6.36 2.948 10.079 2.948 12.067 0 18.661-9.995 18.661-18.651 0-0.276 0-0.557-0.021-0.839 1.287-0.917 2.401-2.079 3.281-3.396z"></path>
+                            </svg>
+                        </button>
+                        <button aria-label="Log in with GitHub" className="p-3 rounded-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className="w-5 h-5 fill-current">
+                                <path d="M16 0.396c-8.839 0-16 7.167-16 16 0 7.073 4.584 13.068 10.937 15.183 0.803 0.151 1.093-0.344 1.093-0.772 0-0.38-0.009-1.385-0.015-2.719-4.453 0.964-5.391-2.151-5.391-2.151-0.729-1.844-1.781-2.339-1.781-2.339-1.448-0.989 0.115-0.968 0.115-0.968 1.604 0.109 2.448 1.645 2.448 1.645 1.427 2.448 3.744 1.74 4.661 1.328 0.14-1.031 0.557-1.74 1.011-2.135-3.552-0.401-7.287-1.776-7.287-7.907 0-1.751 0.62-3.177 1.645-4.297-0.177-0.401-0.719-2.031 0.141-4.235 0 0 1.339-0.427 4.4 1.641 1.281-0.355 2.641-0.532 4-0.541 1.36 0.009 2.719 0.187 4 0.541 3.043-2.068 4.381-1.641 4.381-1.641 0.859 2.204 0.317 3.833 0.161 4.235 1.015 1.12 1.635 2.547 1.635 4.297 0 6.145-3.74 7.5-7.296 7.891 0.556 0.479 1.077 1.464 1.077 2.959 0 2.14-0.020 3.864-0.020 4.385 0 0.416 0.28 0.916 1.104 0.755 6.4-2.093 10.979-8.093 10.979-15.156 0-8.833-7.161-16-16-16z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p className="text-xs text-center sm:px-6 text-gray-600">   Already have an account?
+                        <Link to="/signin" rel="noopener noreferrer" href="#" className="underline text-gray-800">Sign IN</Link>
+                    </p>
                 </div>
-           </Link>
-           
-          <div className="card auth-card input-field">
-            <h2>Instagram</h2>
-            <input
-            type="text"
-            placeholder="name"
-            value={name}
-            onChange={(e)=>setName(e.target.value)}
-            />
-            <input
-            type="text"
-            placeholder="email"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            />
-            <input
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e)=>setPasword(e.target.value)}
-            />
-            <div className="file-field input-field">
-            <div className="btn #64b5f6 blue darken-1">
-                <span>Upload pic</span>
-                <input type="file" onChange={(e)=>setImage(e.target.files[0])} />
+
             </div>
-            <div className="file-path-wrapper">
-                <input className="file-path validate" type="text" />
-            </div>
-            </div>
-            <button className="btn waves-effect waves-light #64b5f6 blue darken-1"
-            onClick={()=>PostData()}
-            >
-                SignUP
-            </button>
-            <h5>
-                <Link to="/signin">Already have an account ?</Link>
-            </h5>
-             
-               
-         
-            
-    
-        </div>
-      </div>
-   )
+
+
+        </>
+
+
+
+    )
 }
 
 
